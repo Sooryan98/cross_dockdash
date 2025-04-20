@@ -22,8 +22,8 @@ progress=defaultdict(int)
 task_id_tracker=[]
 uph_tracker={}
 log_data = {"total_cases": 0}
-robot_fms_data = {f"Robot {i}": 0 for i in range(25)}
-robot_total_cases={f"Robot {i}" : 0 for i in range(25)}
+robot_fms_data = {f"Robot {i+1}": 0 for i in range(25)}
+robot_total_cases={f"Robot {i+1}" : 0 for i in range(25)}
 cases_per_hour = defaultdict(lambda: defaultdict(int))
 log_time_format = "%Y-%m-%d %H:%M:%S,%f"
 # ---------------- DESTRO Log Parser ----------------
