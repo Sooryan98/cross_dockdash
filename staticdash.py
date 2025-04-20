@@ -56,7 +56,7 @@ def parse_destro_log(path):
                 if match:
                  
                     batch, robot_id, case_num, total_cases, item_id = match.groups()
-                    robot_key = f"Robot {robot_id}"
+                    robot_key = f"Robot {int(robot_id)+1}"
                     robot_destro_data[robot_key][item_id] = {
                         "batch": int(batch),
                         "case_num": int(case_num),
@@ -64,7 +64,7 @@ def parse_destro_log(path):
                     }
                     # if  item_id not in task_id_tracker:
                     #     task_id_tracker.append(item_id)
-                    robot_total_cases[f'Robot {robot_id}'] +=1
+                    robot_total_cases[f'Robot {int(robot_id)+1}'] +=1
                     cases_per_hour[robot_key][log_hour_str] += 1
                     
 
@@ -120,9 +120,9 @@ def parse_fms_log(path):
                 match = pattern.search(line)
                 if match:
                     robot_id, dist = match.groups()
-                    if int(robot_id)<40:
+                    if int(robot_id)<25:
 
-                        robot_key = f"Robot {robot_id}"
+                        robot_key = f"Robot {int(robot_id)+1}"
                         robot_fms_data[robot_key] = float(dist)
 
 # ---------------- Run Parsers ----------------
