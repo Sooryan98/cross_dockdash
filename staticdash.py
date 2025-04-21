@@ -10,9 +10,9 @@ from datetime import datetime
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # DESTRO_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "yusen_2025-04-10.log")
 # FMS_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "FMS_2025-04-10.log")
-DESTRO_PATH = "log_bank/yusen_2025-04-18.log"
+DESTRO_PATH = "log_bank/yusen_2025-04-20.log"
 FMS_PATH = "log_bank/FMS_2025-04-20.log"
-FMS_PATH = "log_bank/21utow.log"
+# FMS_PATH = "log_bank/21utow.log"
 
 st.set_page_config(page_title="destro", layout="wide")
 
@@ -165,10 +165,10 @@ robot_uph_df["Robot_Num"] = robot_uph_df["Robot"].str.extract(r'(\d+)').astype(i
 robot_uph_df = robot_uph_df.sort_values(by="Robot_Num")
 # ---------------- Display Dashboard ----------------
 st.image("destro_logo.jpg", width=400)
-# st.metric(label="Time", value=f"4:50:32")
+st.metric(label="Time", value=f"4:50:32")
 
 st.metric(label="Total Cases Picked", value=log_data['total_cases'])
-# st.metric(label="UPH", value=f"5061")
+st.metric(label="UPH", value=f"5061")
 # chart_cases = alt.Chart(robot_cases_df).mark_bar().encode(
 #     x=alt.X('Robot:N', sort='ascending'),
 #     y='Case Num:Q'
