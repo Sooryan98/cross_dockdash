@@ -10,14 +10,18 @@ from datetime import datetime
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # DESTRO_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "yusen_2025-04-10.log")
 # FMS_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "FMS_2025-04-10.log")
-DESTRO_PATH = "log_bank/yusen_2025-04-20.log"
-FMS_PATH = "log_bank/FMS_2025-04-20.log"
+DESTRO_PATH = "log_bank/yusen_2025-04-21.log"
+FMS_PATH = "log_bank/FMS_2025-04-21.log"
 # FMS_PATH = "log_bank/21utow.log"
 
 st.set_page_config(page_title="destro", layout="wide")
 
 
-# ---------------- Data Structures ----------------
+# ---------------- Data Structures ----------------dashboard_time=0
+start_time=0
+end_time=0
+ptrack=0
+
 robot_destro_data = defaultdict(lambda: defaultdict(dict))
 progress_track={"0.0":0}
 progress=defaultdict(int)
@@ -79,6 +83,7 @@ def parse_destro_log(path):
 
 # ---------------- FMS Log Parser ----------------
 def parse_fms_log(path):
+    global ptrack, start_time, end_time,dashboard_time
     if not os.path.exists(path):
         return
 
@@ -105,9 +110,16 @@ def parse_fms_log(path):
                     
                     progress_track[hour]=progress_track[hour]-cases_until_now
                     progress[hour]=progress_track[hour]
+                    if progress[hour]!=ptrack:
+                        ptrack=progress[hour]
+                        match = re.search(r'^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})', line)
+                        if match:
+                            timestamp = match.group(1)
+                            end_time=timestamp
+                        
                     # if log_hr!=0:
                     #     uph_track[log_hr]=progress[hour]*60/log_hr
-                    
+                
             elif "CODE F02" in line:
                     pattern =re.compile(
                             r"CODE F02 at (\d+\.\d+) UPH is (\d+)"
@@ -117,6 +129,11 @@ def parse_fms_log(path):
                     if match:
                         hour,uph=match.groups()
                         uph_tracker[hour]=uph
+            elif "CODE 000" in line :
+                match = re.search(r'^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})', line)
+                if match:
+                    timestamp = match.group(1)
+                    start_time=timestamp
             else:
                 pattern = re.compile(r"Robot robot_(\d+)\s+has travelled\s+([\d\.]+)\s+m")
                 match = pattern.search(line)
@@ -163,12 +180,21 @@ uph_tracker_df=pd.DataFrame(list(uph_tracker.items()), columns=["Hour", "UPH"])
 robot_uph_df=pd.DataFrame(list(robot_total_cases.items()), columns=["Robot", "Total Cases"])
 robot_uph_df["Robot_Num"] = robot_uph_df["Robot"].str.extract(r'(\d+)').astype(int)
 robot_uph_df = robot_uph_df.sort_values(by="Robot_Num")
+
+fmt = "%Y-%m-%d %H:%M:%S,%f"
+start_time = datetime.strptime(start_time, fmt)
+end_time= datetime.strptime(end_time, fmt)
+dashboard_time=end_time-start_time
+dhrs, rem =divmod(dashboard_time.total_seconds(),3600)
+dmins,dsec =divmod(rem,60)
+
+avg_uph = sum(int(v) for v in uph_tracker.values()) / len(uph_tracker)
 # ---------------- Display Dashboard ----------------
 st.image("destro_logo.jpg", width=400)
-st.metric(label="Time", value=f"4:50:32")
+st.metric(label="Time", value=f"{int(dhrs)} : {int(dmins)} : {int(dsec)}")
 
 st.metric(label="Total Cases Picked", value=log_data['total_cases'])
-st.metric(label="UPH", value=f"5061")
+st.metric(label="UPH", value=f"{avg_uph}")
 # chart_cases = alt.Chart(robot_cases_df).mark_bar().encode(
 #     x=alt.X('Robot:N', sort='ascending'),
 #     y='Case Num:Q'
