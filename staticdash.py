@@ -10,8 +10,8 @@ from datetime import datetime
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # DESTRO_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "yusen_2025-04-10.log")
 # FMS_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "FMS_2025-04-10.log")
-DESTRO_PATH = "log_bank/yusen_2025-04-21.log"
-FMS_PATH = "log_bank/FMS_2025-04-21.log"
+DESTRO_PATH = "log_bank/yusen_2025-04-28.log"
+FMS_PATH = "log_bank/FMS_2025-04-28.log"
 # FMS_PATH = "log_bank/21utow.log"
 
 st.set_page_config(page_title="destro", layout="wide")
@@ -147,7 +147,8 @@ def parse_fms_log(path):
 # ---------------- Run Parsers ----------------
 parse_destro_log(DESTRO_PATH)
 parse_fms_log(FMS_PATH)
-
+print(f"{start_time} ------- {type(start_time)}")
+print(f"{end_time} ------- {type(end_time)}")
 # ---------------- Prepare DataFrames ----------------
 rows = []
 for robot, items in robot_destro_data.items():
