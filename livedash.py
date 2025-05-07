@@ -7,8 +7,8 @@ from collections import defaultdict
 from logreader import log_data, robot_destro_data,lock, start_destro_thread,start_fms_thread,robot_fms_data,progress,log_data,cases_per_hour,robot_total_cases, progress_track,uph_tracker
 from logreader import flag_event
 from datetime import datetime
-DESTRO_PATH = "/home/soorya/destro_yusen/cross-docking/logs/yusen_2025-04-20.log"
-FMS_PATH="/home/soorya/destro_python/yunsen/logs/FMS_2025-04-20.log"
+DESTRO_PATH = "/home/soorya/destro_yusen/cross-docking/logs/yusen_2025-05-06.log"
+FMS_PATH="/home/soorya/destro_python/yunsen/logs/FMS_2025-05-06.log"
 st.set_page_config(page_title="destro", layout="wide")
 
 start_destro_thread(DESTRO_PATH)
