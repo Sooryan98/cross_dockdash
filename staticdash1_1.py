@@ -10,8 +10,8 @@ from datetime import datetime
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # DESTRO_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "yusen_2025-04-10.log")
 # FMS_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "FMS_2025-04-10.log")
-DESTRO_PATH = "log_bank/1_1/May 7_2025/yusen_2025-05-07.log"
-FMS_PATH = "log_bank/1_1/May 7_2025/FMS_2025-05-07.log"
+DESTRO_PATH = "log_bank/1_1/May 8_2025/yusen_2025-05-08.log"
+FMS_PATH = "log_bank/1_1/May 8_2025/FMS_2025-05-08.log"
 
 
 st.set_page_config(page_title="destro", layout="wide")
@@ -183,6 +183,7 @@ robot_uph_df["Robot_Num"] = robot_uph_df["Robot"].str.extract(r'(\d+)').astype(i
 robot_uph_df = robot_uph_df.sort_values(by="Robot_Num")
 
 fmt = "%Y-%m-%d %H:%M:%S,%f"
+end_time='2025-05-08 22:55:24,000000'
 start_time = datetime.strptime(start_time, fmt)
 end_time= datetime.strptime(end_time, fmt)
 dashboard_time=end_time-start_time
@@ -193,9 +194,9 @@ avg_uph = sum(int(v) for v in uph_tracker.values()) / len(uph_tracker)
 # ---------------- Display Dashboard ----------------
 st.image("destro_logo.jpg", width=400)
 st.metric(label="Time", value=f"{int(dhrs)} : {int(dmins)} : {int(dsec)}")
-
+total_time=dhrs+dmins/60
 st.metric(label="Total Cases Picked", value=log_data['total_cases'])
-st.metric(label="UPH", value=f"{avg_uph}")
+st.metric(label="UPH", value=f"{int(log_data['total_cases']/total_time)}")
 # chart_cases = alt.Chart(robot_cases_df).mark_bar().encode(
 #     x=alt.X('Robot:N', sort='ascending'),
 #     y='Case Num:Q'
