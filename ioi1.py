@@ -10,8 +10,8 @@ from datetime import datetime
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # DESTRO_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "yusen_2025-04-10.log")
 # FMS_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "FMS_2025-04-10.log")
-DESTRO_PATH = "log_bank/1_Many/yusen_2025-05-08.log"
-FMS_PATH = "log_bank/1_Many/FMS_2025-05-08.log"
+DESTRO_PATH = "log_bank/1_Many/11.5/yusen_2025-05-08.log"
+FMS_PATH = "log_bank/1_Many/11.5/FMS_2025-05-08.log"
 # FMS_PATH = "log_bank/21utow.log"
 
 st.set_page_config(page_title="destro", layout="wide")
@@ -194,9 +194,9 @@ avg_uph = sum(int(v) for v in uph_tracker.values()) / len(uph_tracker)
 # ---------------- Display Dashboard ----------------
 st.image("destro_logo.jpg", width=400)
 st.metric(label="Time", value=f"{int(dhrs)} : {int(dmins)} : {int(dsec)}")
-
+total_time=dhrs+dmins/60
 st.metric(label="Total Cases Picked", value=log_data['total_cases'])
-st.metric(label="UPH", value=f"{avg_uph}")
+st.metric(label="UPH", value=f"{int(log_data['total_cases']/total_time)}")
 # chart_cases = alt.Chart(robot_cases_df).mark_bar().encode(
 #     x=alt.X('Robot:N', sort='ascending'),
 #     y='Case Num:Q'
@@ -229,8 +229,8 @@ st.altair_chart(chart_botuph, use_container_width=False)
 
 st.write("### Robot Unloading Status")
 st.dataframe(df, use_container_width=True)
-st.write("### Progress over time")
-st.dataframe(progress_df, use_container_width=True)
-st.write("### UPH break down")
-st.dataframe(uph_tracker_df, use_container_width=True)
+# st.write("### Progress over time")
+# st.dataframe(progress_df, use_container_width=True)
+# st.write("### UPH break down")
+# st.dataframe(uph_tracker_df, use_container_width=True)
 
