@@ -229,8 +229,8 @@ st.altair_chart(chart_botuph, use_container_width=False)
 
 st.write("### Robot Unloading Status")
 st.dataframe(df, use_container_width=True)
-# st.write("### Progress over time")
-# st.dataframe(progress_df, use_container_width=True)
-# st.write("### UPH break down")
-# st.dataframe(uph_tracker_df, use_container_width=True)
+st.write("### Progress over time")
+st.dataframe(progress_df, use_container_width=True)
+st.write("### UPH break down")
+st.dataframe(uph_tracker_df, use_container_width=True)
 
