@@ -183,6 +183,7 @@ robot_uph_df["Robot_Num"] = robot_uph_df["Robot"].str.extract(r'(\d+)').astype(i
 robot_uph_df = robot_uph_df.sort_values(by="Robot_Num")
 
 fmt = "%Y-%m-%d %H:%M:%S,%f"
+end_time='2025-05-09 09:37:52,000000'
 start_time = datetime.strptime(start_time, fmt)
 end_time= datetime.strptime(end_time, fmt)
 dashboard_time=end_time-start_time
