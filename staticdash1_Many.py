@@ -10,8 +10,8 @@ from datetime import datetime
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # DESTRO_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "yusen_2025-04-10.log")
 # FMS_PATH = os.path.join(BASE_DIR, "yusen", "logs", "inputlog", "FMS_2025-04-10.log")
-DESTRO_PATH = "log_bank/yusen_2025-05-06_1_Many.log"
-FMS_PATH = "log_bank/FMS_2025-05-06_1_Many.log"
+DESTRO_PATH = "log_bank/1_Many/yusen_2025-05-08.log"
+FMS_PATH = "log_bank/1_Many/FMS_2025-05-08.log"
 # FMS_PATH = "log_bank/21utow.log"
 
 st.set_page_config(page_title="destro", layout="wide")
@@ -181,7 +181,9 @@ uph_tracker_df=pd.DataFrame(list(uph_tracker.items()), columns=["Hour", "UPH"])
 robot_uph_df=pd.DataFrame(list(robot_total_cases.items()), columns=["Robot", "Total Cases"])
 robot_uph_df["Robot_Num"] = robot_uph_df["Robot"].str.extract(r'(\d+)').astype(int)
 robot_uph_df = robot_uph_df.sort_values(by="Robot_Num")
-
+# 2025-05-09 09:10:43,614
+# start_time='2025-05-08 23:24:09,000000'
+end_time='2025-05-09 09:10:43,000000'
 fmt = "%Y-%m-%d %H:%M:%S,%f"
 start_time = datetime.strptime(start_time, fmt)
 end_time= datetime.strptime(end_time, fmt)
@@ -193,9 +195,9 @@ avg_uph = sum(int(v) for v in uph_tracker.values()) / len(uph_tracker)
 # ---------------- Display Dashboard ----------------
 st.image("destro_logo.jpg", width=400)
 st.metric(label="Time", value=f"{int(dhrs)} : {int(dmins)} : {int(dsec)}")
-
+total_time=dhrs+dmins/60
 st.metric(label="Total Cases Picked", value=log_data['total_cases'])
-st.metric(label="UPH", value=f"{avg_uph}")
+st.metric(label="UPH", value=f"{int(log_data['total_cases']/total_time)}")
 # chart_cases = alt.Chart(robot_cases_df).mark_bar().encode(
 #     x=alt.X('Robot:N', sort='ascending'),
 #     y='Case Num:Q'
